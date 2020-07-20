@@ -1,6 +1,6 @@
 # Hashicorp Vault and Consul setup using Ansible Role
 
-We are going to create an Ansile Role for Vault setup so we can reuse it. We will begin by creating a new user account named "vault" which will help with a secure setup. We will use this account to isolate the ownership of vault. We don't create any home directory or shell for this user so that user can't log in to a server.
+We are going to create an Ansile Role for Vault setup so we can reuse it. We will begin by creating a new user account named "vault" and "consul" which will help with a secure setup. We will use this account to isolate the ownership of vault. We don't create any home directory or shell for this user so that user can't log in to a server.
 
 Next, we need to download vault archive from here on our remote vault instance. This will give a zip archive file. To unzip vault archive, we need to install unzip so we can unzip vault archive and takeout needed binary. Once this is done, we need to unzip vault archive, move our vault binary to "/usr/local/bin" and make vault user as the owner of this binary with reading and execute permissions.
 
@@ -76,7 +76,7 @@ Config agent Consul:
     "acl_enforce_version_8": false
  }
 ```
-Config agent Vault:
+Config Vault:
 
 ```bash
 storage "consul" {
@@ -109,7 +109,5 @@ ansible-playbook playbook.yml
 
 ## Reference documentation
 [haproxyproject](http://www.haproxy.org)
-
 [vaultproject](https://www.vaultproject.io/docs/install)
-
 [consulproject](https://www.consul.io/docs)
