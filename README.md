@@ -10,8 +10,6 @@ We need to setup systemd init file to manage the persistent vault daemon. We nee
 
 Attention to define the variables of Ansible, in these variables are configuring the notes for each environment of the Consul and the safe and it is recommended that the people who are going to change the playbooy have knowledge in the Vault and Consul.
 
-This environment is functioning in a vault cluster and in the Consul.
-
 ### Setup
 
 We set up haproxy for Consul and Vault.
@@ -109,5 +107,7 @@ ansible-playbook playbook.yml
 
 ## Reference documentation
 [haproxyproject](http://www.haproxy.org)
+
 [vaultproject](https://www.vaultproject.io/docs/install)
+
 [consulproject](https://www.consul.io/docs)
