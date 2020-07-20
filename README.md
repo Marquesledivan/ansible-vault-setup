@@ -101,8 +101,6 @@ pid_file = "/var/lib/vault/vault.pid"
 
 ```
 
-This environment is configured for auto availability.
-
 Provide the server's IP address in the inventory file on which we want to run this manual. How we are using Consul as the Vault backend.
 
 Once done run command:
@@ -110,6 +108,8 @@ Once done run command:
 ansible-playbook playbook.yml
 
 ## Reference documentation
-[haproxyproject]http://www.haproxy.org/
-[vaultproject]https://www.vaultproject.io/docs/install
-[consulproject]https://www.consul.io/docs
+[haproxyproject](http://www.haproxy.org)
+
+[vaultproject](https://www.vaultproject.io/docs/install)
+
+[consulproject](https://www.consul.io/docs)
