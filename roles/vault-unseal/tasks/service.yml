@@ -1,0 +1,32 @@
+- name: Unseal vault with unseal keys
+  shell: |
+    echo {{ item.stdout }} >> /etc/list
+  with_items: "{{unseal_keys.results}}"
+
+- name: config file
+  template:
+    src: autounseal.sh.j2
+    dest: /etc/init.d/autounseal.sh
+    mode: 0760
+  with_items: "{{unseal_keys.results}}"
+  
+- name: Reading unseal rootKey contents
+  command: cat {{item}}
+  register: root_keys
+  with_fileglob: "{{ rootKey_dir_output }}/*"
+  delegate_to: localhost
+  become: no
+
+- name: config file 2
+  template:
+    src: autounseal.service.j2
+    dest: /etc/systemd/system/autounseal.service
+    mode: 0760
+  with_items: "{{root_keys.results}}"
+  notify: systemd_reload
+
+- name: start autounseal.service
+  service:
+    name: autounseal.service
+    state: restarted
+    enabled: yes

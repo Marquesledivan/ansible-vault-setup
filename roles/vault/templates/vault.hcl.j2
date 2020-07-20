@@ -1,0 +1,20 @@
+storage "consul" {
+  address = "127.0.0.1:8500"
+  path = "vault/"
+}
+listener "tcp" {
+  address       = "{{ address }}"
+  cluster_address =  "{{ ansible_enp0s3.ipv4.address }}:8201"
+  tls_disable     = 1
+}
+
+disable_mlock = true
+disable_cache = true
+api_addr =  {{ api_addr }}
+cluster_addr = "http://{{ ansible_enp0s3.ipv4.address }}:8201" 
+cluster_name = "{{ cluster_name }}"
+ui = true
+default_lease_ttl = "768h"
+max_lease_ttl = "768h"
+pid_file = "/var/lib/vault/vault.pid"
+

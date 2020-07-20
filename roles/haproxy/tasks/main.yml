@@ -1,0 +1,29 @@
+---
+- name: Change kernel parameters
+  sysctl: name="{{ item.key }}" value="{{ item.value }}" state=present
+  with_dict: '{{ kernel_params }}'
+  ignore_errors: yes
+
+- name: Change limits for haproxy
+  pam_limits:
+    domain: haproxy
+    limit_type: soft
+    limit_item: nofile
+    value: 64000
+
+- name: Install packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - haproxy
+
+- blockinfile:
+    dest: "{{ haproxy_directory }}"
+    block: "{{ lookup('template', 'haproxy.cfg.j2') }}"
+
+- name: hxproxy service
+  service:
+    name: haproxy
+    state: restarted
+    enabled: yes

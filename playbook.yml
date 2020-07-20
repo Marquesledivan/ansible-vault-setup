@@ -1,0 +1,27 @@
+---
+# - hosts: haproxy
+#   become: yes
+#   become_user: root
+#   # roles:
+#   #   - haproxy
+
+# - hosts: consul
+#   become: yes
+#   become_user: root
+#   # roles:
+#   #   - consul
+
+# - hosts: vault
+#   become: yes
+#   become_user: root
+#   # roles:
+#   #   - vault
+
+
+- hosts: vault
+  vars:
+    unseal_keys_dir_output: "{{ playbook_dir }}/unsealKey"
+    root_token_dir_output: "{{ playbook_dir }}/rootKey"
+  roles:
+    - vault-init
+    - vault-unseal

@@ -1,0 +1,10 @@
+---
+#### CONSUL ####
+consul_version: "1.8.0"
+consul_user: "consul"
+consul_directory: "/etc/consul/consul.json"
+consul_retry_join: '"192.168.15.12","192.168.15.13","192.168.15.14"'
+install_prerequisites: ['unzip']
+
+
+

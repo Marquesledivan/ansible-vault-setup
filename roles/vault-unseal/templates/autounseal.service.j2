@@ -1,0 +1,15 @@
+# /etc/systemd/system/unsel.service
+[Unit]
+Requires=network-online.target
+After=vault.service
+
+[Service]
+Type=oneshot
+Environment="VAULT_ADDR=http://127.0.0.1:8200"
+Environment="VAULT_TOKEN={{ item.stdout }}"
+ExecStart=/etc/init.d/autounseal.sh start
+ExecStop=/etc/init.d/autounseal.sh stop
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

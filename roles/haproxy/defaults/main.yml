@@ -1,0 +1,8 @@
+---
+vault1: "192.168.15.8"
+vault2: "192.168.15.9"
+vault3: "192.168.15.10"
+consul1: "192.168.15.12"
+consul2: "192.168.15.13"
+consul3: "192.168.15.14"
+haproxy_directory: "/etc/haproxy/haproxy.cfg"

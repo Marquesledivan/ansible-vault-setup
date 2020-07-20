@@ -1,0 +1,17 @@
+listen vault
+    bind {{ ansible_enp0s3.ipv4.address }}:80
+    mode http
+    balance roundrobin
+    option httpchk GET /v1/sys/health
+    server vault1 {{ vault1 }}:8200 check fall 3 rise 2
+    server vault2 {{ vault2 }}:8200 check fall 3 rise 2
+    server vault3 {{ vault3 }}:8200 check fall 3 rise 2
+
+listen consul
+    bind {{ ansible_enp0s3.ipv4.address }}:8500
+    mode http
+    balance roundrobin
+    option httpchk GET /ui
+    server vault1 {{ consul1 }}:8500 check fall 3 rise 2
+    server vault2 {{ consul2 }}:8500 check fall 3 rise 2
+    server vault3 {{ consul3 }}:8500 check fall 3 rise 2

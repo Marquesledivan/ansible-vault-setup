@@ -1,0 +1,76 @@
+- name: Creating consul user group
+  group: 
+    name: "{{ consul_user }}"
+  become: true
+
+- name: Creating consul user
+  user:
+    name: "{{ consul_user }}"
+    group: "{{ consul_user }}"
+    home: /etc/consul/
+    system: yes
+    shell: "/sbin/nologin"
+    comment: "consul nologin User"
+    createhome: "no"
+    state: present
+
+- name: Creating Directory consul /etc/consul
+  file:
+    path: /etc/consul
+    state: directory
+    recurse: yes    
+    owner: "{{ consul_user }}"
+    group: "{{ consul_user }}"
+
+- name: Creating Directory consul /var/lib/consul/data
+  file:
+    path: /var/lib/consul
+    owner: "{{ consul_user }}"
+    group: "{{ consul_user }}"
+    state: directory
+
+- name: Install prerequisites
+  package:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items: "{{ install_prerequisites }}"
+  become: yes
+
+- name: Download binary
+  get_url:
+    url: https://releases.hashicorp.com/consul/{{consul_version}}/consul_{{consul_version}}_linux_amd64.zip
+    dest: /tmp/consul_{{consul_version}}_linux_amd64.zip
+    owner: "{{ consul_user }}"
+    group: "{{ consul_user }}"
+    mode: 0755
+  register: consul_download
+
+- name: "Unzip consul archive"
+  unarchive:
+    src: "{{ consul_download.dest }}"
+    dest: /usr/local/bin
+    copy: no
+    owner: "{{ consul_user }}"
+    group: "{{ consul_user }}"
+    mode: 0755
+
+- name: Copy systemd init file
+  template:
+    src: consul.service.j2
+    dest: /etc/systemd/system/consul.service
+    owner: root
+    group: root
+  notify: systemd_reload
+
+- name: config file
+  template:
+    src: consul.json.j2
+    dest: "{{ consul_directory }}"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_user }}"
+
+- name: consul service
+  service:
+    name: consul
+    state: restarted
+    enabled: yes

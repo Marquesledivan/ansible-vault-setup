@@ -1,0 +1,15 @@
+ {
+   "server": true,
+   "node_name": "{{ ansible_hostname }}",
+   "datacenter": "dc1",
+   "data_dir": "/var/lib/consul/data",
+   "bind_addr": "0.0.0.0",
+   "client_addr": "0.0.0.0",
+   "advertise_addr": "{{ ansible_enp0s3.ipv4.address }}",
+   "bootstrap_expect": 3,
+   "ui": true,
+   "retry_join": [{{ consul_retry_join }}],
+   "log_level": "DEBUG",
+   "enable_syslog": true,
+   "acl_enforce_version_8": false
+}

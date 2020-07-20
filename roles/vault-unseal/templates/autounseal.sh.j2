@@ -1,0 +1,27 @@
+#!/bin/bash
+
+key=$(cat /etc/list)
+
+unsel(){
+    for i in $key
+    do
+      vault operator unseal $i
+    done
+}
+
+seal(){
+   vault operator seal
+}
+
+case $1 in
+      start)
+           unsel
+           echo "Sucess Unsel"
+           ;;
+      stop)
+          seal
+          echo "Sucess Seal"
+          ;;
+       *)
+       echo "Usage option: start or stop"
+esac

@@ -1,0 +1,22 @@
+# /etc/systemd/system/multi-user.target.wants/consul.service
+[Unit]
+Description="HashiCorp Consul - A service mesh solution"
+Documentation=https://www.consul.io/
+Requires=network-online.target
+After=network-online.target
+ConditionFileNotEmpty=/etc/consul/vault.json
+
+[Service]
+Type=notify
+User={{ consul_user }}
+Group={{ consul_user }}
+PIDFile=/var/lib/consul/consul.pid
+ExecStart=/usr/local/bin/consul agent -config-file=/etc/consul/vault.json -pid-file=/var/lib/consul/consul.pid
+ExecReload=/usr/local/bin/consul reload
+ExecStop=/usr/local/bin/consul leave
+KillMode=process
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

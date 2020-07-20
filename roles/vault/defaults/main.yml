@@ -1,0 +1,17 @@
+---
+#### VAULT ####
+vault_version: "1.4.3"
+install_prerequisites: ['unzip']
+vault_user: "vault"
+vault_config_path: "/etc/vault/config.hcl"
+vault_directory: "/etc/vault"
+cluster_name: "ledivan"
+api_addr: '"http://0.0.0.0:8200"'
+address: "0.0.0.0:8200"
+#### CONSUL ####
+consul_version: "1.8.0"
+consul_user: "consul"
+consul_directory: "/etc/consul/vault.json"
+consul_haproxy: '"192.168.15.14","192.168.15.12","192.168.15.13"'
+
+
