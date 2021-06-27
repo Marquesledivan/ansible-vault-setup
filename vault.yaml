@@ -1,8 +1,22 @@
----
 # Source: vault/templates/server-disruptionbudget.yaml
 # PodDisruptionBudget to prevent degrading the server cluster through
 # voluntary cluster changes.
 # helm template vault hashicorp/vault --set "server.ha.enabled=true" --namespace vault > teste.yaml
+# kubectl -n vault create secret generic unselkey \
+#    --from-literal=Key1="" \
+#    --from-literal=Key2="" \
+#    --from-literal=Key3=""
+---
+apiVersion: v1
+data:
+  access_key: xxxxxxxxxxxxxxxxxxxxx
+  secret_key: xxxxxxxxxxxxxxxxxxxxx
+kind: Secret
+metadata:
+  name: aws-key
+  namespace: vault
+type: Opaque
+---
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
